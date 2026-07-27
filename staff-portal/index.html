@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Staff Portal | Bodyfunction Clinic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#F66E37;
+    --navy:#042843;
+    --ink:#1F272D;
+    --grey:#E5E6E9;
+    --white:#ffffff;
+    --green:#1c8a4c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter', Roboto, Arial, sans-serif;
+    color:var(--ink);
+    background:var(--grey);
+    line-height:1.55;
+  }
+  h1,h2,h3,h4{font-family:'Inter',sans-serif; color:var(--navy); font-weight:800; letter-spacing:-0.01em;}
+  a{color:var(--orange);}
+
+  /* ---------- Login gate ---------- */
+  #gate{
+    position:fixed; inset:0; background:var(--navy);
+    display:flex; align-items:center; justify-content:center;
+    z-index:999; padding:24px;
+  }
+  #gate .box{
+    background:var(--white); border-radius:16px; padding:40px 36px;
+    max-width:380px; width:100%; text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,0.35);
+  }
+  #gate img{width:180px; margin-bottom:18px;}
+  #gate h2{font-size:1.3rem; margin:0 0 6px;}
+  #gate p{font-size:0.92rem; color:#5b6570; margin:0 0 20px;}
+  #gate input{
+    width:100%; padding:12px 14px; border-radius:8px; border:1.5px solid #cfd4d8;
+    font-size:1rem; margin-bottom:12px; font-family:inherit;
+  }
+  #gate button{
+    width:100%; padding:12px 14px; border:none; border-radius:8px;
+    background:var(--orange); color:#fff; font-weight:700; font-size:1rem;
+    cursor:pointer; transition:background .15s;
+  }
+  #gate button:hover{background:#dd5a26;}
+  #gate .err{color:#c62828; font-size:0.85rem; min-height:1.2em; margin-top:8px;}
+
+  /* ---------- Layout ---------- */
+  #app{display:none;}
+  header.topbar{
+    background:var(--navy); color:#fff; padding:18px 28px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    position:sticky; top:0; z-index:50; box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  }
+  header.topbar .brand{display:flex; align-items:center; gap:14px;}
+  header.topbar img{height:34px;}
+  header.topbar .who{font-size:0.85rem; color:#b9c6d1;}
+  header.topbar .who strong{color:#fff;}
+
+  nav.toc{
+    background:var(--white); border-bottom:1px solid #d8dcdf;
+    padding:10px 28px; position:sticky; top:70px; z-index:49;
+    overflow-x:auto; white-space:nowrap;
+  }
+  nav.toc a{
+    display:inline-block; margin-right:6px; padding:8px 14px;
+    border-radius:20px; font-size:0.85rem; font-weight:600;
+    color:var(--navy); text-decoration:none; background:var(--grey);
+  }
+  nav.toc a:hover{background:#dfe2e5;}
+
+  main{max-width:960px; margin:0 auto; padding:28px 20px 80px;}
+  section{
+    background:var(--white); border-radius:14px; padding:28px 30px;
+    margin-bottom:26px; box-shadow:0 1px 3px rgba(0,0,0,0.06);
+    scroll-margin-top:130px;
+  }
+  section > h2{
+    font-size:1.4rem; margin-top:0; padding-bottom:12px;
+    border-bottom:3px solid var(--orange); display:inline-block;
+  }
+  .section-tag{
+    display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--orange); margin-bottom:6px;
+  }
+  .callout{
+    background:#fff4ee; border-left:4px solid var(--orange); border-radius:6px;
+    padding:14px 16px; margin:16px 0; font-size:0.94rem;
+  }
+  .callout.warn{background:#fff8e1; border-left-color:#e0a800;}
+  .callout.danger{background:#fdecea; border-left-color:#c62828;}
+  .callout.info{background:#eaf3ff; border-left-color:#1565c0;}
+
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:0.92rem;}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid #e3e6e8; vertical-align:top;}
+  th{background:var(--grey); color:var(--navy); font-weight:700;}
+  tr:hover td{background:#fafbfc;}
+
+  .contact-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:16px 0;}
+  .contact-card{background:var(--grey); border-radius:10px; padding:16px;}
+  .contact-card .label{font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:#5b6570; font-weight:700;}
+  .contact-card .value{font-size:1.05rem; font-weight:700; color:var(--navy); margin-top:4px;}
+  .contact-card a{color:var(--navy); text-decoration:none;}
+  .contact-card a:hover{text-decoration:underline;}
+
+  .map-embed{border-radius:10px; overflow:hidden; margin:16px 0; border:1px solid #d8dcdf;}
+  .map-embed iframe{width:100%; height:280px; border:0; display:block;}
+
+  .staff-card{border:1px solid #e3e6e8; border-radius:10px; padding:16px 18px; margin:14px 0;}
+  .staff-card h4{margin:0 0 4px; font-size:1.05rem;}
+  .staff-card .role{color:var(--orange); font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:8px;}
+  .staff-card .meta{font-size:0.82rem; color:#5b6570; margin-top:8px;}
+  .badge{display:inline-block; background:var(--navy); color:#fff; font-size:0.72rem; font-weight:700; padding:3px 9px; border-radius:12px; margin-right:6px;}
+
+  .script-block{background:var(--grey); border-radius:10px; padding:18px 20px; margin:14px 0;}
+  .script-block .step-label{font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:var(--navy); margin-bottom:6px;}
+  .say{
+    background:#fff; border-left:4px solid var(--navy); border-radius:6px;
+    padding:12px 14px; margin:8px 0; font-style:italic; color:#1F272D;
+  }
+  .say::before{content:"\201C"; color:var(--orange); font-weight:800; font-style:normal; margin-right:2px;}
+  .do{font-size:0.9rem; color:#3a444c;}
+
+  .ad-card{
+    border:2px solid var(--navy); border-radius:12px; padding:18px 20px; margin:14px 0;
+    position:relative; background:#fbfcfd;
+  }
+  .ad-card .platform{
+    position:absolute; top:-12px; left:16px; background:var(--orange); color:#fff;
+    font-size:0.72rem; font-weight:800; padding:4px 12px; border-radius:12px; text-transform:uppercase;
+  }
+  .ad-card .ad-headline{font-weight:800; color:var(--navy); font-size:1.05rem; margin:8px 0 4px;}
+  .ad-card .ad-price{color:var(--orange); font-weight:800;}
+
+  .checklist{list-style:none; padding:0; margin:14px 0;}
+  .checklist li{padding:8px 0 8px 30px; position:relative; border-bottom:1px dashed #e3e6e8;}
+  .checklist li::before{
+    content:"✓"; position:absolute; left:0; top:8px; color:#fff; background:var(--green);
+    width:18px; height:18px; border-radius:50%; font-size:0.7rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  footer{text-align:center; padding:24px; font-size:0.8rem; color:#5b6570;}
+
+  @media print{
+    #gate, nav.toc, header.topbar{display:none !important;}
+    #app{display:block !important;}
+    body{background:#fff;}
+    section{box-shadow:none; border:1px solid #ccc; break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= LOGIN GATE ================= -->
+<div id="gate">
+  <div class="box">
+    <img src="../assets/bodyfunction-logo.png" alt="Bodyfunction Clinic">
+    <h2>Staff Portal</h2>
+    <p>Enter the team password to access the telephony &amp; onboarding handbook.</p>
+    <input type="password" id="pw" placeholder="Password" autofocus>
+    <button onclick="checkPw()">Log In</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<!-- ================= PORTAL ================= -->
+<div id="app">
+
+<header class="topbar">
+  <div class="brand">
+    <img src="../assets/bodyfunction-logo.png" alt="Bodyfunction Clinic">
+  </div>
+  <div class="who">Logged in as <strong>Steph — Business Development Executive</strong> &nbsp;|&nbsp; <a href="#" onclick="window.print(); return false;" style="color:#F66E37;">🖨 Print / Save as PDF</a></div>
+</header>
+
+<nav class="toc">
+  <a href="#welcome">Welcome</a>
+  <a href="#contact">Contact &amp; Directions</a>
+  <a href="#staff">Staff &amp; Services</a>
+  <a href="#script49">£49 Offer Call Script</a>
+  <a href="#ads">Social Media Ads</a>
+  <a href="#other-offers">Other Live Offers</a>
+  <a href="#admin">General Admin</a>
+</nav>
+
+<main>
+
+  <!-- ===================== WELCOME ===================== -->
+  <section id="welcome">
+    <span class="section-tag">Section 1</span>
+    <h2>Welcome, Steph 👋</h2>
+    <p>You're starting as our <strong>Business Development Executive</strong> on <strong>Monday 3rd August</strong>. This portal is your single reference point for the phone — bookmark it.</p>
+    <p>Your role covers four main areas:</p>
+    <table>
+      <tr><th style="width:220px;">Area</th><th>What it covers</th></tr>
+      <tr><td>📞 Outbound Leads Management</td><td>Calling new leads from Go High Level (£49 introductory offer, free 15‑minute phone consults, and other campaigns below) and converting them into booked, paid appointments in Cliniko.</td></tr>
+      <tr><td>📱 Social Media</td><td>Overseeing the clinic's Facebook, Instagram and TikTok presence and the ads driving the £49 offer leads (see the Social Media Ads section).</td></tr>
+      <tr><td>💼 Business Development</td><td>Referral network relationships (3D Medical, Speed Medical), corporate/employee offers, and identifying growth opportunities.</td></tr>
+      <tr><td>🗂 General Admin</td><td>Email monitoring, Cliniko diary management, Classpass/Treatwell bookings, and keeping GoHighLevel logged accurately.</td></tr>
+    </table>
+    <div class="callout warn">
+      <strong>⚠ Important standing notice:</strong> The <strong>Marylebone clinic is now permanently closed</strong>. Every new booking — regardless of which campaign the lead came from — must go into the <strong>Angel Islington</strong> diary in Cliniko. Do not book, or promise, anything at Marylebone.
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT & DIRECTIONS ===================== -->
+  <section id="contact">
+    <span class="section-tag">Section 2</span>
+    <h2>Business Address &amp; Contact Details</h2>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="label">Clinic</div>
+        <div class="value">Bodyfunction Clinic — Angel Islington</div>
+      </div>
+      <div class="contact-card">
+        <div class="label">Address</div>
+        <div class="value">10 Barnsbury Road<br>London, N1 0HB</div>
+      </div>
+      <div class="contact-card">
+        <div class="label">Telephone</div>
+        <div class="value"><a href="tel:+442034420267">0203 442 0267</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="label">Patient Email</div>
+        <div class="value"><a href="mailto:hello@bodyfunction.co.uk">hello@bodyfunction.co.uk</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="label">Website</div>
+        <div class="value"><a href="https://bodyfunction.co.uk" target="_blank">bodyfunction.co.uk</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="label">Opening Hours</div>
+        <div class="value">Mon–Fri 09:00–19:00<br>Sat–Sun 09:00–17:00</div>
+      </div>
+    </div>
+
+    <h3>Internal Staff Emails</h3>
+    <table>
+      <tr><th>Name</th><th>Email</th></tr>
+      <tr><td>Danny Morgan (Clinical Director)</td><td>danny@bodyfunction.co.uk</td></tr>
+      <tr><td>Diana Sarri</td><td>diana@bodyfunction.co.uk</td></tr>
+      <tr><td>Reena Depala</td><td>reena@bodyfunction.co.uk</td></tr>
+      <tr><td>Prarthi Jagtap</td><td>prarthi@bodyfunction.co.uk</td></tr>
+      <tr><td>Elvira Cipolletti</td><td>elvira@bodyfunction.co.uk</td></tr>
+      <tr><td>Jeremy Zhang</td><td>jeremy@bodyfunction.co.uk</td></tr>
+      <tr><td>James Symons</td><td>james.s@bodyfunction.co.uk</td></tr>
+    </table>
+
+    <h3>How to Get to the Clinic</h3>
+    <div class="map-embed">
+      <iframe src="https://www.google.com/maps?q=10+Barnsbury+Road,+London,+N1+0HB&output=embed" loading="lazy"></iframe>
+    </div>
+    <ul>
+      <li><strong>Nearest tube:</strong> Angel (Northern line) — the clinic is located near Angel Police Station.</li>
+      <li><strong>Entrance:</strong> Ring the buzzer to the left of the door. The entrance is via a shop with Bodyfunction signage in the window.</li>
+      <li><strong>Parking:</strong> No dedicated clinic parking. Pay‑and‑display parking is available on Dewey Road.</li>
+      <li><strong>Accessibility:</strong> Wheelchair/pram friendly with partial access — there's a small step at the entrance (no ramp); access is possible if someone can help tilt a manual wheelchair back. Not suitable for electric wheelchairs. Toilet is on the landing, down 4 steps.</li>
+      <li><strong>Google Maps link:</strong> <a href="https://maps.app.goo.gl/xqqHRNjF1NyF2RCb8" target="_blank">maps.app.goo.gl/xqqHRNjF1NyF2RCb8</a></li>
+    </ul>
+    <div class="callout">Always confirm the patient knows how to find the clinic (directions + parking) before ending any booking call, and remind them to arrive 10 minutes early as a new patient.</div>
+  </section>
+
+  <!-- ===================== STAFF & SERVICES ===================== -->
+  <section id="staff">
+    <span class="section-tag">Section 3</span>
+    <h2>Our Staff &amp; What They Offer</h2>
+    <p>Use this to match a lead's needs to the right practitioner when booking in Cliniko.</p>
+
+    <h3>🦴 Osteopaths</h3>
+    <p class="do">All osteopaths offer: manual therapy, soft tissue release, joint mobilisation, HVLA thrusts, muscle energy technique (MET), myofascial release, strain‑counterstrain, cranial osteopathy, visceral manipulation, dry needling and plantar fasciitis treatment. Individual notes below.</p>
+
+    <div class="staff-card">
+      <h4>Danny Morgan <span class="badge">Clinical Director</span></h4>
+      <div class="role">Osteopath · GOsC 11187</div>
+      <div>Masters in Osteopathy (University College of Osteopathy). Special interest in chronic pain and the psychological/neurological links to it. Also runs the <strong>Foot Scan &amp; Custom Orthotics</strong> appointment.</div>
+      <div class="meta">Children 12+ · Pregnancy: all stages · Insurance: all except BUPA</div>
+    </div>
+    <div class="staff-card">
+      <h4>Reena Depala</h4>
+      <div class="role">Osteopath · GOsC 10150</div>
+      <div>Special interest in back, neck and headache pain, plus women's health and mind‑body connection.</div>
+      <div class="meta">Children 0+ · Pregnancy: all stages · Insurance: all except BUPA</div>
+    </div>
+    <div class="staff-card">
+      <h4>Diana Sarri</h4>
+      <div class="role">Osteopath · GOsC 11201</div>
+      <div>Manual therapy, exercise and lifestyle advice for overall health and wellbeing.</div>
+      <div class="meta">Children 12+ only · Pregnancy: all stages · Insurance: all except BUPA</div>
+    </div>
+    <div class="staff-card">
+      <h4>Elvira Cipolletti</h4>
+      <div class="role">Osteopath · GOsC 11426</div>
+      <div>Background in yoga, movement and martial arts (Aikido, Brazilian Jiu‑Jitsu) — strong interest in sports‑specific injuries.</div>
+      <div class="meta">Children 12+ only · Pregnancy: all stages · Insurance: all except BUPA</div>
+    </div>
+    <div class="staff-card">
+      <h4>James Symons</h4>
+      <div class="role">Osteopath · GOsC 11415</div>
+      <div>Based at Angel Clinic.</div>
+      <div class="meta">Children 12+ only · Pregnancy: all stages</div>
+    </div>
+    <div class="staff-card">
+      <h4>Freya Hasse</h4>
+      <div class="role">Osteopath · GOsC registered</div>
+      <div>Based at Angel Clinic.</div>
+      <div class="meta">Children 12+ · Pregnancy: all stages · Insurance: all except BUPA</div>
+    </div>
+
+    <h3>🏃 Physiotherapists</h3>
+    <p class="do">All physiotherapists offer: joint mobilisations, soft tissue release, trigger point therapy, manual stretching, IASTM, rehabilitation/exercise programmes, core &amp; postural training, neuromuscular re‑education and plantar fasciitis treatment.</p>
+
+    <div class="staff-card">
+      <h4>Prarthi Jagtap</h4>
+      <div class="role">Physiotherapist · HCPC PH127506</div>
+      <div>MSc Advanced Manipulative Physiotherapy (Birmingham). Also delivers <strong>Acupuncture</strong> and <strong>Sports Massage Therapy</strong>, plus ultrasound therapy and dry needling.</div>
+      <div class="meta">Children 12+ only · Pregnancy: all stages · Insurance: all</div>
+    </div>
+    <div class="staff-card">
+      <h4>Jeferson Lessmann</h4>
+      <div class="role">Physiotherapist · HCPC PH117047</div>
+      <div>CSP‑registered physio and CNHC‑registered massage/sports therapist, with a Dermatofunctional (skin rehab) specialism. <strong>The only practitioner who does home visits (£150)</strong> — take name, address, email and mobile, then email Jeferson &amp; Danny and add the patient to Cliniko. Do not book new‑patient clinic appointments with Jeferson.</div>
+      <div class="meta">Children 12+ only · Pregnancy: all stages · Insurance: all</div>
+    </div>
+    <div class="staff-card">
+      <h4>Jeremy Zhang</h4>
+      <div class="role">Physiotherapist · HCPC PH144889</div>
+      <div>BSc Kinesiology (York University, Canada), MSc pre‑reg Physiotherapy (Scotland). Manual therapy, massage, joint manipulation and trigger point release.</div>
+      <div class="meta">Children 12+ only · Pregnancy: all stages · Insurance: all</div>
+    </div>
+
+    <div class="callout warn">
+      <strong>EMSELLA pelvic floor chair:</strong> previously ran at the Marylebone clinic (now closed) with Edina, Mondays &amp; Wednesdays. Confirm with Danny whether this is still being offered from Angel before booking any EMSELLA leads.
+    </div>
+  </section>
+
+  <!-- ===================== £49 CALL SCRIPT ===================== -->
+  <section id="script49">
+    <span class="section-tag">Section 4</span>
+    <h2>📞 £49 Introductory Offer — Outbound Call Script</h2>
+    <p>Use this script when calling a lead who has just submitted their details for the <strong>£49 Introductory Offer</strong> (usually £80, Osteopathy only, Angel Islington only). Speed matters — call as soon as the lead lands in Go High Level.</p>
+
+    <div class="callout danger">
+      <strong>Golden rule: No payment = no booking.</strong> The full £49 must be secured as a deposit — either taken over the phone via Stripe, or paid immediately by the patient via a Cliniko payment link — before the appointment is confirmed.
+    </div>
+
+    <div class="script-block">
+      <div class="step-label">Step 1 — Before you dial</div>
+      <div class="do">Check Go High Level: confirm the lead is tagged <em>"Introductory Offer"</em> (not the free 15‑minute consult) and note their name, number and what they've told us about their pain/symptoms.</div>
+    </div>
+
+    <div class="script-block">
+      <div class="step-label">Step 2 — Opening</div>
+      <div class="say">Hi, is this [Name]? It's [Your Name] calling from Bodyfunction Clinic in Angel — you recently enquired about our £49 introductory osteopathy appointment. Is now a good time for a couple of minutes?</div>
+    </div>
+
+    <div class="script-block">
+      <div class="step-label">Step 3 — Discovery</div>
+      <div class="say">Can I ask what's been going on — where's the pain, and how long have you had it for?</div>
+      <div class="do">Listen, note it down, and use it to reassure them the right practitioner can help.</div>
+    </div>
+
+    <div class="script-block">
+      <div class="step-label">Step 4 — Explain the offer</div>
+      <div class="say">So this appointment is normally £80, but as part of our current offer it's just £49. It includes a full consultation, our osteopath finding the root cause of the problem, and hands‑on treatment in the same session — it's a full appointment, not just a taster. It runs for about 55 minutes and is only available here at our Angel Islington clinic.</div>
+    </div>
+
+    <div class="script-block">
+      <div class="step-label">Step 5 — Book the appointment</div>
+      <div class="say">I can get you booked in with one of our osteopaths at Angel — would earlier or later in the week work better for you?</div>
+      <div class="do">Book as <strong>"Introductory Offer"</strong> appointment type in Cliniko, at Angel Islington, with any available osteopath (not physio). Take name, DOB, email, mobile, address and referral source.</div>
+    </div>
+
+    <div class="script-block">
+      <div class="step-label">Step 6 — Take payment (this is the critical step)</div>
+      <div class="say">To secure that slot I just need to take the £49 now as a deposit — would you like to pay over the phone, or would you prefer I text you a secure payment link instead?</div>
+
+      <p style="margin-top:14px;"><strong>Option A — Card over the phone (Stripe):</strong></p>
+      <div class="say">Whenever you're ready, could you read me your card number, expiry date and the 3‑digit security code?</div>
+      <div class="do">
+        Key the payment straight into the Stripe virtual terminal as they read it — never write the full card number down on paper. Then in Cliniko: open the appointment → <strong>Add Invoice</strong> → link the practitioner and appointment date → select <strong>Consultation Deposit</strong> as the invoice item → <strong>Create Invoice</strong> → add the deposit amount against Credit Card → save the payment, and assign the invoice to the correct practitioner.
+      </div>
+
+      <p style="margin-top:14px;"><strong>Option B — Cliniko payment link by SMS (if they'd rather not read their card out):</strong></p>
+      <div class="say">No problem at all — I'll text you a secure payment link right now. It'll take you about 30 seconds, and you can pay by card, or just tap to pay with Apple Pay or Google Pay if that's quicker and more secure for you. Let me know as soon as it's gone through and I'll lock in your slot.</div>
+      <div class="do">Send the Cliniko invoice payment link via SMS to the patient's mobile. Apple Pay / Google Pay are supported automatically on the patient's phone for extra security — no card details need to be read aloud. Stay on the line if possible, or agree a callback, to confirm the payment has landed before treating the booking as fully confirmed.</div>
+
+      <div class="callout warn" style="margin-top:14px;">If the patient hesitates on payment entirely, do not confirm the appointment. Politely explain the £49 rate only holds the slot once the deposit is paid, and offer to send the payment link so they can complete it in their own time — but keep the diary slot provisional until it's paid.</div>
+    </div>
+
+    <div class="script-block">
+      <div class="step-label">Step 7 — Confirm &amp; give directions</div>
+      <div class="say">Perfect, you're all booked in for [day/time] with [practitioner] at our Angel Islington clinic, 10 Barnsbury Road, N1 0HB — that's right by Angel tube, near Angel Police Station. Just ring the buzzer to the left of the door and come on in; there's pay‑and‑display parking on Dewey Road if you're driving. You'll get a confirmation email with a short new patient form — it only takes a couple of minutes and can be done anytime before your appointment, even five minutes before if needed. Could you also arrive about 10 minutes early?</div>
+    </div>
+
+    <div class="script-block">
+      <div class="step-label">Step 8 — Close</div>
+      <div class="say">Great, we look forward to seeing you on [day/time]. If anything comes up and you need to change it, just give us a call — we ask for at least 24 hours' notice where possible. Thanks so much, [Name], have a great day!</div>
+    </div>
+
+    <div class="callout">
+      <strong>After the call:</strong>
+      <ul class="checklist">
+        <li>Log the call outcome and payment status in Go High Level.</li>
+        <li>Confirm the Cliniko invoice/deposit is fully recorded and assigned to the correct practitioner.</li>
+        <li>Double‑check the appointment type is set to "Introductory Offer" and the location is Angel Islington.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== SOCIAL MEDIA ADS ===================== -->
+  <section id="ads">
+    <span class="section-tag">Section 5</span>
+    <h2>📱 Current Social Media Ads Driving the £49 Offer</h2>
+    <p>These are the live campaigns generating £49 introductory offer leads, as briefed internally. Ads run continuously on Facebook and Instagram, and occasionally on TikTok.</p>
+
+    <div class="ad-card">
+      <span class="platform">Facebook / Instagram</span>
+      <div class="ad-headline">Osteopathy Introductory Offer</div>
+      <div class="ad-price">£49 <span style="text-decoration:line-through; color:#8a8f94; font-weight:600;">£80</span></div>
+      <p>Full consultation, diagnosis of the root cause, and hands‑on osteopathic treatment in the same session. Angel Islington only. Booked as "Introductory Offer" in Cliniko — osteopathy leads only, not physiotherapy.</p>
+    </div>
+
+    <div class="ad-card">
+      <span class="platform">Facebook / Instagram</span>
+      <div class="ad-headline">Back &amp; Neck Pain Treatment Session</div>
+      <div class="ad-price">£49 <span style="text-decoration:line-through; color:#8a8f94; font-weight:600;">£80</span></div>
+      <p>Full consultation, diagnosis of the root cause, and hands‑on treatment in the same session. Book as <strong>"Back &amp; Neck Pain Treatment Session"</strong> in Cliniko — do not book into the standard initial consultation slot.</p>
+    </div>
+
+    <div class="callout info">
+      <strong>Note on live creative:</strong> Meta's Ad Library and Instagram require a logged‑in session to view, so live ad images/videos couldn't be pulled in automatically here. Please screenshot the current live ad creative from Meta Business Suite / Ads Manager (or Danny's Instagram/Facebook page — <a href="https://www.facebook.com/bodyfunctionUK/" target="_blank">facebook.com/bodyfunctionUK</a> / <a href="https://www.instagram.com/bodyfunctionuk" target="_blank">instagram.com/bodyfunctionuk</a>) and drop them in here so Steph can see exactly what patients are responding to.
+    </div>
+  </section>
+
+  <!-- ===================== OTHER LIVE OFFERS ===================== -->
+  <section id="other-offers">
+    <span class="section-tag">Section 6</span>
+    <h2>Other Live Phone Offers (Quick Reference)</h2>
+    <table>
+      <tr><th>Offer</th><th>Price</th><th>Notes</th></tr>
+      <tr>
+        <td>Free 15‑Minute Telephone Consultation</td>
+        <td>Free</td>
+        <td>Phone call with any available osteopath/physio to discuss arthritis/joint concerns and give initial advice. No payment involved — just book the slot.</td>
+      </tr>
+      <tr>
+        <td>EMSELLA Chair Introductory Offer</td>
+        <td>£50 deposit (was £98)</td>
+        <td>⚠ Previously Marylebone/Edina only — confirm current availability before booking (see Staff section notice above).</td>
+      </tr>
+      <tr>
+        <td>Reactivation Voucher (Cliniko app patients)</td>
+        <td>£25 voucher</td>
+        <td>Phone only, do not send booking links. Add note: "Reactivation voucher £25 applied – per recall offer. Date: [DD/MM]."</td>
+      </tr>
+      <tr>
+        <td>Bark.com Leads</td>
+        <td>Full price</td>
+        <td>Osteo/physio/massage at normal price, no discount — check the lead note for which service is needed.</td>
+      </tr>
+    </table>
+  </section>
+
+  <!-- ===================== GENERAL ADMIN ===================== -->
+  <section id="admin">
+    <span class="section-tag">Section 7</span>
+    <h2>General Admin Quick Reference</h2>
+    <table>
+      <tr><th>System</th><th>Purpose</th></tr>
+      <tr><td>Cliniko</td><td>Booking diary, invoices &amp; payments — <a href="https://bodyfunction.uk2.cliniko.com/appointments" target="_blank">bodyfunction.uk2.cliniko.com</a></td></tr>
+      <tr><td>Go High Level</td><td>Lead pipeline — log every call attempt and outcome here.</td></tr>
+      <tr><td>Stripe</td><td>Card payments taken over the phone — login held in the team password manager.</td></tr>
+    </table>
+    <ul class="checklist">
+      <li>Mark any business‑related email as "do not archive" and action all patient enquiries promptly.</li>
+      <li>Classpass &amp; Treatwell bookings don't sync automatically — add them to the Cliniko diary manually and note whether paid.</li>
+      <li>Massages must always be booked with an Osteopath.</li>
+      <li>Sign off patient emails with "Kind regards" only — no name, using the clinic signature already set up on the mailbox.</li>
+      <li>Late cancellations (under 24 hours): text to confirm, include a rebooking link, follow up by email after 4 days if not rebooked.</li>
+      <li>Always ask why a patient is cancelling — a 20% affordability discount can be offered where cost is the barrier.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>Bodyfunction Clinic — Internal Staff Portal · Not for external distribution</footer>
+</div>
+
+<script>
+  const PASSWORD = "AngelBDE2026"; // TODO: change this and share securely with Steph
+  const KEY = "bf_staff_portal_auth";
+
+  function showApp(){
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+  }
+
+  function checkPw(){
+    const val = document.getElementById('pw').value;
+    if(val === PASSWORD){
+      sessionStorage.setItem(KEY, '1');
+      showApp();
+    } else {
+      document.getElementById('err').textContent = 'Incorrect password — please try again.';
+    }
+  }
+
+  document.getElementById('pw').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') checkPw();
+  });
+
+  if(sessionStorage.getItem(KEY) === '1'){
+    showApp();
+  }
+</script>
+
+</body>
+</html>
