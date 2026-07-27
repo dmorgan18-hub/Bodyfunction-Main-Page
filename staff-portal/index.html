@@ -141,6 +141,11 @@
   .ad-card .ad-headline{font-weight:800; color:var(--navy); font-size:1.05rem; margin:8px 0 4px;}
   .ad-card .ad-price{color:var(--orange); font-weight:800;}
 
+  td[contenteditable="true"]{min-width:80px; min-height:1.4em;}
+  td[contenteditable="true"]:hover{background:#fff4ee;}
+  td[contenteditable="true"]:focus{outline:2px dashed var(--orange); outline-offset:-2px; background:#fff;}
+  td[contenteditable="true"]:empty:before{content:attr(data-placeholder); color:#a8afb5; font-style:italic;}
+
   .checklist{list-style:none; padding:0; margin:14px 0;}
   .checklist li{padding:8px 0 8px 30px; position:relative; border-bottom:1px dashed #e3e6e8;}
   .checklist li::before{
@@ -250,7 +255,6 @@
       <tr><td>Danny Morgan (Clinical Director)</td><td>danny@bodyfunction.co.uk</td></tr>
       <tr><td>Diana Sarri</td><td>diana@bodyfunction.co.uk</td></tr>
       <tr><td>Reena Depala</td><td>reena@bodyfunction.co.uk</td></tr>
-      <tr><td>Prarthi Jagtap</td><td>prarthi@bodyfunction.co.uk</td></tr>
       <tr><td>Elvira Cipolletti</td><td>elvira@bodyfunction.co.uk</td></tr>
       <tr><td>Jeremy Zhang</td><td>jeremy@bodyfunction.co.uk</td></tr>
       <tr><td>James Symons</td><td>james.s@bodyfunction.co.uk</td></tr>
@@ -320,15 +324,9 @@
     <p class="do">All physiotherapists offer: joint mobilisations, soft tissue release, trigger point therapy, manual stretching, IASTM, rehabilitation/exercise programmes, core &amp; postural training, neuromuscular re‑education and plantar fasciitis treatment.</p>
 
     <div class="staff-card">
-      <h4>Prarthi Jagtap</h4>
-      <div class="role">Physiotherapist · HCPC PH127506</div>
-      <div>MSc Advanced Manipulative Physiotherapy (Birmingham). Also delivers <strong>Acupuncture</strong> and <strong>Sports Massage Therapy</strong>, plus ultrasound therapy and dry needling.</div>
-      <div class="meta">Children 12+ only · Pregnancy: all stages · Insurance: all</div>
-    </div>
-    <div class="staff-card">
       <h4>Jeferson Lessmann</h4>
-      <div class="role">Physiotherapist · HCPC PH117047</div>
-      <div>CSP‑registered physio and CNHC‑registered massage/sports therapist, with a Dermatofunctional (skin rehab) specialism. <strong>The only practitioner who does home visits (£150)</strong> — take name, address, email and mobile, then email Jeferson &amp; Danny and add the patient to Cliniko. Do not book new‑patient clinic appointments with Jeferson.</div>
+      <div class="role">Physiotherapist · HCPC PH117047 · Home Visits Only</div>
+      <div>CSP‑registered physio and CNHC‑registered massage/sports therapist, with a Dermatofunctional (skin rehab) specialism. <strong>Home visits only — £150 per visit.</strong> Take name, address, email and mobile, then email Jeferson &amp; Danny and add the patient to Cliniko. Do not book Jeferson for clinic appointments.</div>
       <div class="meta">Children 12+ only · Pregnancy: all stages · Insurance: all</div>
     </div>
     <div class="staff-card">
@@ -336,10 +334,6 @@
       <div class="role">Physiotherapist · HCPC PH144889</div>
       <div>BSc Kinesiology (York University, Canada), MSc pre‑reg Physiotherapy (Scotland). Manual therapy, massage, joint manipulation and trigger point release.</div>
       <div class="meta">Children 12+ only · Pregnancy: all stages · Insurance: all</div>
-    </div>
-
-    <div class="callout warn">
-      <strong>EMSELLA pelvic floor chair:</strong> previously ran at the Marylebone clinic (now closed) with Edina, Mondays &amp; Wednesdays. Confirm with Danny whether this is still being offered from Angel before booking any EMSELLA leads.
     </div>
   </section>
 
@@ -350,7 +344,7 @@
     <p>Use this script when calling a lead who has just submitted their details for the <strong>£49 Introductory Offer</strong> (usually £80, Osteopathy only, Angel Islington only). Speed matters — call as soon as the lead lands in Go High Level.</p>
 
     <div class="callout danger">
-      <strong>Golden rule: No payment = no booking.</strong> The full £49 must be secured as a deposit — either taken over the phone via Stripe, or paid immediately by the patient via a Cliniko payment link — before the appointment is confirmed.
+      <strong>Golden rule: No payment = no booking.</strong> The full £49 must be secured as a deposit — either taken over the phone via Stripe, or paid immediately by the patient via a Cliniko SMS payment link — before the appointment is confirmed.
     </div>
 
     <div class="script-block">
@@ -371,7 +365,7 @@
 
     <div class="script-block">
       <div class="step-label">Step 4 — Explain the offer</div>
-      <div class="say">So this appointment is normally £80, but as part of our current offer it's just £49. It includes a full consultation, our osteopath finding the root cause of the problem, and hands‑on treatment in the same session — it's a full appointment, not just a taster. It runs for about 55 minutes and is only available here at our Angel Islington clinic.</div>
+      <div class="say">So this appointment is normally £80, but as part of our current offer it's just £49. It includes a full consultation, our osteopath finding the root cause of the problem, and hands‑on treatment in the same session — it's a full appointment, with treatment. It runs for about 45 minutes and is only available here at our Angel Islington clinic.</div>
     </div>
 
     <div class="script-block">
@@ -382,7 +376,7 @@
 
     <div class="script-block">
       <div class="step-label">Step 6 — Take payment (this is the critical step)</div>
-      <div class="say">To secure that slot I just need to take the £49 now as a deposit — would you like to pay over the phone, or would you prefer I text you a secure payment link instead?</div>
+      <div class="say">To secure that slot I just need to take the £49 now — would you like to pay over the phone, or would you prefer I text you a secure payment link instead?</div>
 
       <p style="margin-top:14px;"><strong>Option A — Card over the phone (Stripe):</strong></p>
       <div class="say">Whenever you're ready, could you read me your card number, expiry date and the 3‑digit security code?</div>
@@ -430,43 +424,34 @@
       <p>Full consultation, diagnosis of the root cause, and hands‑on osteopathic treatment in the same session. Angel Islington only. Booked as "Introductory Offer" in Cliniko — osteopathy leads only, not physiotherapy.</p>
     </div>
 
-    <div class="ad-card">
-      <span class="platform">Facebook / Instagram</span>
-      <div class="ad-headline">Back &amp; Neck Pain Treatment Session</div>
-      <div class="ad-price">£49 <span style="text-decoration:line-through; color:#8a8f94; font-weight:600;">£80</span></div>
-      <p>Full consultation, diagnosis of the root cause, and hands‑on treatment in the same session. Book as <strong>"Back &amp; Neck Pain Treatment Session"</strong> in Cliniko — do not book into the standard initial consultation slot.</p>
-    </div>
-
-    <div class="callout info">
-      <strong>Note on live creative:</strong> Meta's Ad Library and Instagram require a logged‑in session to view, so live ad images/videos couldn't be pulled in automatically here. Please screenshot the current live ad creative from Meta Business Suite / Ads Manager (or Danny's Instagram/Facebook page — <a href="https://www.facebook.com/bodyfunctionUK/" target="_blank">facebook.com/bodyfunctionUK</a> / <a href="https://www.instagram.com/bodyfunctionuk" target="_blank">instagram.com/bodyfunctionuk</a>) and drop them in here so Steph can see exactly what patients are responding to.
-    </div>
   </section>
 
   <!-- ===================== OTHER LIVE OFFERS ===================== -->
   <section id="other-offers">
     <span class="section-tag">Section 6</span>
     <h2>Other Live Phone Offers (Quick Reference)</h2>
+    <p class="do">Click into any cell below to type — kept blank so offers can be added/updated as campaigns change over time.</p>
     <table>
       <tr><th>Offer</th><th>Price</th><th>Notes</th></tr>
       <tr>
-        <td>Free 15‑Minute Telephone Consultation</td>
-        <td>Free</td>
-        <td>Phone call with any available osteopath/physio to discuss arthritis/joint concerns and give initial advice. No payment involved — just book the slot.</td>
+        <td contenteditable="true" data-placeholder="Offer name"></td>
+        <td contenteditable="true" data-placeholder="Price"></td>
+        <td contenteditable="true" data-placeholder="Notes"></td>
       </tr>
       <tr>
-        <td>EMSELLA Chair Introductory Offer</td>
-        <td>£50 deposit (was £98)</td>
-        <td>⚠ Previously Marylebone/Edina only — confirm current availability before booking (see Staff section notice above).</td>
+        <td contenteditable="true" data-placeholder="Offer name"></td>
+        <td contenteditable="true" data-placeholder="Price"></td>
+        <td contenteditable="true" data-placeholder="Notes"></td>
       </tr>
       <tr>
-        <td>Reactivation Voucher (Cliniko app patients)</td>
-        <td>£25 voucher</td>
-        <td>Phone only, do not send booking links. Add note: "Reactivation voucher £25 applied – per recall offer. Date: [DD/MM]."</td>
+        <td contenteditable="true" data-placeholder="Offer name"></td>
+        <td contenteditable="true" data-placeholder="Price"></td>
+        <td contenteditable="true" data-placeholder="Notes"></td>
       </tr>
       <tr>
-        <td>Bark.com Leads</td>
-        <td>Full price</td>
-        <td>Osteo/physio/massage at normal price, no discount — check the lead note for which service is needed.</td>
+        <td contenteditable="true" data-placeholder="Offer name"></td>
+        <td contenteditable="true" data-placeholder="Price"></td>
+        <td contenteditable="true" data-placeholder="Notes"></td>
       </tr>
     </table>
   </section>
@@ -482,9 +467,8 @@
       <tr><td>Stripe</td><td>Card payments taken over the phone — login held in the team password manager.</td></tr>
     </table>
     <ul class="checklist">
-      <li>Mark any business‑related email as "do not archive" and action all patient enquiries promptly.</li>
       <li>Classpass &amp; Treatwell bookings don't sync automatically — add them to the Cliniko diary manually and note whether paid.</li>
-      <li>Massages must always be booked with an Osteopath.</li>
+      <li>Massages can be booked with an Osteopath or a Physiotherapist.</li>
       <li>Sign off patient emails with "Kind regards" only — no name, using the clinic signature already set up on the mailbox.</li>
       <li>Late cancellations (under 24 hours): text to confirm, include a rebooking link, follow up by email after 4 days if not rebooked.</li>
       <li>Always ask why a patient is cancelling — a 20% affordability discount can be offered where cost is the barrier.</li>
