@@ -686,11 +686,32 @@
     };
   }
 
+  // Google Apps Script Web Apps don't reliably send CORS headers for fetch(),
+  // so we load/save via a JSONP script-tag request instead, which isn't
+  // subject to CORS at all.
+  let jsonpCounter = 0;
+  function jsonpRequest(params){
+    return new Promise((resolve, reject) => {
+      const cbName = `bfJsonp${Date.now()}_${jsonpCounter++}`;
+      const script = document.createElement('script');
+      const timer = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 10000);
+      function cleanup(){
+        clearTimeout(timer);
+        delete window[cbName];
+        script.remove();
+      }
+      window[cbName] = (data) => { cleanup(); resolve(data); };
+      const qs = new URLSearchParams({...params, callback: cbName}).toString();
+      script.src = `${SHEETS_API_URL}?${qs}`;
+      script.onerror = () => { cleanup(); reject(new Error('script load error')); };
+      document.body.appendChild(script);
+    });
+  }
+
   async function loadTable(table){
     try{
-      const res = await fetch(`${SHEETS_API_URL}?table=${encodeURIComponent(table)}`);
-      if(!res.ok) throw new Error('bad response');
-      const data = await res.json();
+      const data = await jsonpRequest({table});
+      if(data.error) throw new Error(data.error);
       const rows = data.rows || [];
       document.querySelectorAll(`td[data-table="${table}"]`).forEach(td => {
         const r = Number(td.dataset.row), c = Number(td.dataset.col);
@@ -707,17 +728,14 @@
     const saveNow = debounce(async () => {
       setStatus(table, 'Saving…', 'saving');
       try{
-        const res = await fetch(SHEETS_API_URL, {
-          method: 'POST',
-          headers: {'Content-Type': 'text/plain;charset=utf-8'},
-          body: JSON.stringify({
-            table,
-            row: Number(td.dataset.row),
-            col: Number(td.dataset.col),
-            value: td.textContent
-          })
+        const data = await jsonpRequest({
+          action: 'set',
+          table,
+          row: String(td.dataset.row),
+          col: String(td.dataset.col),
+          value: td.textContent
         });
-        if(!res.ok) throw new Error('bad response');
+        if(data.error) throw new Error(data.error);
         setStatus(table, 'Saved ✓', 'saved');
         setTimeout(() => setStatus(table, ''), 1800);
       } catch(err){
