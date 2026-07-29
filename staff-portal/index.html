@@ -151,6 +151,16 @@
   td[contenteditable="true"]:focus{outline:2px dashed var(--orange); outline-offset:-2px; background:#fff;}
   td[contenteditable="true"]:empty:before{content:attr(data-placeholder); color:#a8afb5; font-style:italic;}
 
+  .save-status{font-size:0.78rem; font-weight:700; font-style:normal;}
+  .save-status.saving{color:#8a8f94;}
+  .save-status.saved{color:var(--green);}
+  .save-status.error{color:#c62828;}
+  .sync-banner{
+    background:#fff8e1; border:1px solid #e0c05c; border-radius:8px;
+    padding:10px 14px; margin:14px 0; font-size:0.85rem; color:#6b5900; display:none;
+  }
+  .sync-banner.show{display:block;}
+
   .checklist{list-style:none; padding:0; margin:14px 0;}
   .checklist li{padding:8px 0 8px 30px; position:relative; border-bottom:1px dashed #e3e6e8;}
   .checklist li::before{
@@ -436,28 +446,29 @@
   <section id="other-offers">
     <span class="section-tag">Section 6</span>
     <h2>Other Live Phone Offers (Quick Reference)</h2>
-    <p class="do">Click into any cell below to type — kept blank so offers can be added/updated as campaigns change over time.</p>
+    <p class="do">Click into any cell below to type — kept blank so offers can be added/updated as campaigns change over time. <span class="save-status" id="offers-status"></span></p>
+    <div class="sync-banner" id="offers-banner">⚠ Not connected to the shared spreadsheet yet — typing here won't be saved until setup is finished. Ask Danny/Claude to finish connecting it.</div>
     <table>
       <tr><th>Offer</th><th>Price</th><th>Notes</th></tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Offer name"></td>
-        <td contenteditable="true" data-placeholder="Price"></td>
-        <td contenteditable="true" data-placeholder="Notes"></td>
+        <td contenteditable="true" data-table="offers" data-row="0" data-col="0" data-placeholder="Offer name"></td>
+        <td contenteditable="true" data-table="offers" data-row="0" data-col="1" data-placeholder="Price"></td>
+        <td contenteditable="true" data-table="offers" data-row="0" data-col="2" data-placeholder="Notes"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Offer name"></td>
-        <td contenteditable="true" data-placeholder="Price"></td>
-        <td contenteditable="true" data-placeholder="Notes"></td>
+        <td contenteditable="true" data-table="offers" data-row="1" data-col="0" data-placeholder="Offer name"></td>
+        <td contenteditable="true" data-table="offers" data-row="1" data-col="1" data-placeholder="Price"></td>
+        <td contenteditable="true" data-table="offers" data-row="1" data-col="2" data-placeholder="Notes"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Offer name"></td>
-        <td contenteditable="true" data-placeholder="Price"></td>
-        <td contenteditable="true" data-placeholder="Notes"></td>
+        <td contenteditable="true" data-table="offers" data-row="2" data-col="0" data-placeholder="Offer name"></td>
+        <td contenteditable="true" data-table="offers" data-row="2" data-col="1" data-placeholder="Price"></td>
+        <td contenteditable="true" data-table="offers" data-row="2" data-col="2" data-placeholder="Notes"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Offer name"></td>
-        <td contenteditable="true" data-placeholder="Price"></td>
-        <td contenteditable="true" data-placeholder="Notes"></td>
+        <td contenteditable="true" data-table="offers" data-row="3" data-col="0" data-placeholder="Offer name"></td>
+        <td contenteditable="true" data-table="offers" data-row="3" data-col="1" data-placeholder="Price"></td>
+        <td contenteditable="true" data-table="offers" data-row="3" data-col="2" data-placeholder="Notes"></td>
       </tr>
     </table>
   </section>
@@ -466,7 +477,8 @@
   <section id="referrals">
     <span class="section-tag">Section 7</span>
     <h2>🤝 Refer a Friend Tracker</h2>
-    <p>Log every referral here so discounts and Cliniko credits are never missed. Click into any cell to type — rows can be edited or cleared as needed.</p>
+    <p>Log every referral here so discounts and Cliniko credits are never missed. Click into any cell to type — rows can be edited or cleared as needed. <span class="save-status" id="referrals-status"></span></p>
+    <div class="sync-banner" id="referrals-banner">⚠ Not connected to the shared spreadsheet yet — typing here won't be saved until setup is finished. Ask Danny/Claude to finish connecting it.</div>
     <div style="overflow-x:auto;">
     <table>
       <tr>
@@ -476,124 +488,124 @@
         <th>Credit Added to Referrer's Cliniko?</th>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="0" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="0" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="0" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="0" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="1" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="1" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="1" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="1" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="2" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="2" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="2" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="2" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="3" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="3" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="3" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="3" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="4" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="4" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="4" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="4" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="5" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="5" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="5" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="5" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="6" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="6" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="6" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="6" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="7" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="7" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="7" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="7" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="8" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="8" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="8" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="8" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="9" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="9" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="9" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="9" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="10" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="10" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="10" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="10" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="11" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="11" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="11" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="11" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="12" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="12" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="12" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="12" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="13" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="13" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="13" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="13" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="14" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="14" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="14" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="14" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="15" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="15" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="15" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="15" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="16" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="16" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="16" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="16" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="17" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="17" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="17" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="17" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="18" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="18" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="18" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="18" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
       <tr>
-        <td contenteditable="true" data-placeholder="Patient name"></td>
-        <td contenteditable="true" data-placeholder="Referred by"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
-        <td contenteditable="true" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="19" data-col="0" data-placeholder="Patient name"></td>
+        <td contenteditable="true" data-table="referrals" data-row="19" data-col="1" data-placeholder="Referred by"></td>
+        <td contenteditable="true" data-table="referrals" data-row="19" data-col="2" data-placeholder="Yes / No"></td>
+        <td contenteditable="true" data-table="referrals" data-row="19" data-col="3" data-placeholder="Yes / No"></td>
       </tr>
     </table>
     </div>
@@ -630,6 +642,7 @@
   function showApp(){
     document.getElementById('gate').style.display = 'none';
     document.getElementById('app').style.display = 'block';
+    initSync();
   }
 
   function checkPw(){
@@ -648,6 +661,83 @@
 
   if(sessionStorage.getItem(KEY) === '1'){
     showApp();
+  }
+
+  // ================= SHARED SAVE (Google Sheet backend) =================
+  // TODO: paste the Google Apps Script "Web app" URL here once deployed (see setup notes).
+  const SHEETS_API_URL = "";
+
+  function isSyncConfigured(){
+    return typeof SHEETS_API_URL === 'string' && SHEETS_API_URL.trim().length > 0;
+  }
+
+  function setStatus(table, text, cls){
+    const el = document.getElementById(`${table}-status`);
+    if(!el) return;
+    el.textContent = text;
+    el.className = 'save-status' + (cls ? ' ' + cls : '');
+  }
+
+  function debounce(fn, ms){
+    let timer;
+    return function(...args){
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), ms);
+    };
+  }
+
+  async function loadTable(table){
+    try{
+      const res = await fetch(`${SHEETS_API_URL}?table=${encodeURIComponent(table)}`);
+      if(!res.ok) throw new Error('bad response');
+      const data = await res.json();
+      const rows = data.rows || [];
+      document.querySelectorAll(`td[data-table="${table}"]`).forEach(td => {
+        const r = Number(td.dataset.row), c = Number(td.dataset.col);
+        const val = rows[r] && rows[r][c] != null ? rows[r][c] : '';
+        if(val) td.textContent = val;
+      });
+    } catch(err){
+      setStatus(table, '⚠ Could not load saved data', 'error');
+    }
+  }
+
+  function wireEditableCell(td){
+    const table = td.dataset.table;
+    const saveNow = debounce(async () => {
+      setStatus(table, 'Saving…', 'saving');
+      try{
+        const res = await fetch(SHEETS_API_URL, {
+          method: 'POST',
+          headers: {'Content-Type': 'text/plain;charset=utf-8'},
+          body: JSON.stringify({
+            table,
+            row: Number(td.dataset.row),
+            col: Number(td.dataset.col),
+            value: td.textContent
+          })
+        });
+        if(!res.ok) throw new Error('bad response');
+        setStatus(table, 'Saved ✓', 'saved');
+        setTimeout(() => setStatus(table, ''), 1800);
+      } catch(err){
+        setStatus(table, '⚠ Not saved — check connection', 'error');
+      }
+    }, 600);
+    td.addEventListener('input', saveNow);
+  }
+
+  function initSync(){
+    const tables = ['offers', 'referrals'];
+    if(!isSyncConfigured()){
+      tables.forEach(t => {
+        const banner = document.getElementById(`${t}-banner`);
+        if(banner) banner.classList.add('show');
+      });
+      return;
+    }
+    tables.forEach(loadTable);
+    document.querySelectorAll('td[data-table]').forEach(wireEditableCell);
   }
 </script>
 
